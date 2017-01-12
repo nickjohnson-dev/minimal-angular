@@ -1,8 +1,6 @@
-var path = require('path');
-var webpack = require('webpack');
-
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   devServer: {
@@ -12,27 +10,17 @@ module.exports = {
   },
   devtool: 'eval-source-map',
   entry: {
-    'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
     'app': './src/main.ts',
   },
   module: {
     rules: [
-      {
-        test: /\.json$/,
-        loader: 'json-loader',
-      },
+      { test: /\.json$/, loader: 'json-loader' },
       {
         test: /\.ts$/,
-        loaders: [
-          'awesome-typescript-loader?inlineSourceMap=true&sourceMap=false',
-        ],
-        exclude: [
-          /\.(spec|e2e)\.ts$/,
-          /node_modules\/(?!(ng2-.+))/,
-        ],
+        loader: 'awesome-typescript-loader?inlineSourceMap=true&sourceMap=false',
+        exclude: /node_modules\/(?!(ng2-.+))/,
       },
-    ]
+    ],
   },
   output: {
     chunkFilename: '[id].chunk.js',
@@ -41,12 +29,6 @@ module.exports = {
     publicPath: 'http://localhost:8080/',
   },
   plugins: [
-    new CommonsChunkPlugin({
-      name: [
-        'vendor',
-        'polyfills',
-      ],
-    }),
     new HtmlWebpackPlugin({
       template: './src/public/index.html',
       chunksSortMode: 'dependency',
