@@ -9,13 +9,14 @@ module.exports = {
     stats: 'minimal',
   },
   entry: {
-    'app': './src/main.ts',
+    'app': './src/index.ts',
+    'vendor': './src/vendor.ts',
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
-        loader: 'ts-loader?inlineSourceMap=true&sourceMap=false',
+        loader: 'ts-loader',
         exclude: /node_modules\/(?!(ng2-.+))/,
       },
     ],
@@ -30,6 +31,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       chunksSortMode: 'dependency',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
     }),
     new webpack.ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
